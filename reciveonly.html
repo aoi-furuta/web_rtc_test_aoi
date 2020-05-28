@@ -1,0 +1,66 @@
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>WebRTC test AOI</title>
+        <link rel="stylesheet" href="https://cdn.rawgit.com/Chalarangelo/mini.css/v3.0.1/dist/mini-default.min.css">
+    </head>
+    <body>
+      <header class="sticky row">
+        <h4>WebRTC Test AOI</h4>
+      </header>
+      <div>
+        <p>ルームID
+        <input id="roomIdInput" type="text" value=""></input>
+        </p>
+        <button onclick="startConn();">接続</button>
+        <button onclick="disconnect();">切断</button>
+      </div>
+      <div style="float:left;">
+	<canvas id="canvas"></canvas>
+        <video id="remote-video" autoplay playsinline controls style="width: 400px; height: 300px; border: 1px solid black;"></video>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/@open-ayame/ayame-web-sdk@2020.2.1/dist/ayame.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.7.0/qs.min.js"></script>
+      <script src="./main.js"></script>
+
+		<script src="minMatrixb.js" type="text/javascript"></script>
+		<script src="subx.js" type="text/javascript"></script>		
+
+		<script id="vs" type="x-shader/x-vertex">
+attribute vec3 position;
+attribute vec4 color;
+attribute vec2 texCoord;
+uniform   mat4 mvpMatrix;
+varying   vec4 vColor;
+varying   vec2 vTexCoord;
+
+void main(void){
+	vColor = color;
+	vTexCoord = texCoord;
+	gl_Position  = mvpMatrix * vec4(position, 1.0);
+}
+		</script>
+		
+		<script id="fs" type="x-shader/x-fragment">
+precision mediump float;
+
+uniform sampler2D texture;
+varying vec4      vColor;
+varying vec2      vTexCoord;
+
+void main(void){
+	vec4 smpColor = texture2D(texture, vTexCoord);
+	gl_FragColor  = vColor * smpColor;
+}
+		</script>
+	</head>
+	<body>
+		<canvas id="canvas"></canvas>
+		<video id="remote_video" width="500" height="500" muted="true" autoplay playsinline="true"></video>
+	</body>
+
+
+
+
+</html>
+
